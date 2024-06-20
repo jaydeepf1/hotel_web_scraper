@@ -159,8 +159,8 @@ def main():
       'Chattanooga, TN, United States',
       'Chattanooga Lovell Airport, TN, United States'
   ]
-  check_in_date = datetime(2024, 5, 20).strftime('%m/%d/%Y')
-  check_out_date = datetime(2024, 5, 30).strftime('%m/%d/%Y')
+  check_in_date = datetime(2024, 5, 21).strftime('%m/%d/%Y')
+  check_out_date = datetime(2024, 5, 22).strftime('%m/%d/%Y')
 
   # Find a free port dynamically
   try:
