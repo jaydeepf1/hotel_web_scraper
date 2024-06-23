@@ -23,7 +23,7 @@ if __name__ == '__main__':
                                             check_out_date)
 
             # File Name
-            file_name = f'{destinations[0].replace(", ", "_").replace(" ", "_")}_{check_in_date.replace("/", "_")}_To_{check_out_date.replace("/", "_")}.csv'
+            file_name = f'{destination.replace(", ", "_").replace(" ", "_")}_{check_in_date.replace("/", "_")}_To_{check_out_date.replace("/", "_")}.csv'
 
             # Save Hotel Data
             save_to_csv(hotel_data, filename=file_name)
