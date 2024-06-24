@@ -1,12 +1,19 @@
+import random
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-from find_free_port import find_free_port  # Make sure find_free_port is correctly implemented
+from logger import set_log
+
+# Initialize the custom logger
+logger = set_log()
+
 
 def load_options():
+    """
+    Configure Chrome options for WebDriver.
+    """
     options = Options()
-    options.use_chromium = True  # Ensure you are using Chromium-based Edge
     options.add_argument("--log-level=3")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
@@ -15,19 +22,50 @@ def load_options():
     options.add_argument("--disable-extensions")
     options.add_argument("start-maximized")
     options.add_argument("disable-infobars")
-    options.add_argument("window-size=3000x3000")
-    options.add_argument(f"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
-    # options.add_argument("--headless=new")
+    options.add_argument(
+        "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15"
+    )
+    options.add_argument(
+        "--headless=new")  # Uncomment this line if running headless
+
     return options
 
-def load_driver():
+
+def find_free_port():
+    """
+    Try to find a free port from a predefined list.
+    """
+    chrome_driver_port = random.choice(
+        [7000, 8005, 9010, 1000, 2005, 3010, 4000, 5005, 6010, 1010])
+    logger.info(f"Using port: {chrome_driver_port}")
+    return chrome_driver_port  # Return the port if successfully chosen
+
+
+def initialize_driver():
+    """
+    Initialize Chrome WebDriver with configured options and service.
+    """
     options = load_options()
-    try:
-        chrome_driver_port = find_free_port()  # Ensure find_free_port() is correctly implemented
-        print(f"Using port: {chrome_driver_port}")
-    except RuntimeError as e:
-        print(f"Error finding a free port: {e}")
-        exit(1)
-    service = Service(port=chrome_driver_port)
-    driver = webdriver.Chrome(service=service, options=options)
+
+    retry_count = 5
+
+    for attempt in range(1, retry_count + 1):
+        try:
+            service = Service(port=find_free_port())
+            driver = webdriver.Chrome(service=service, options=options)
+            return driver  # If successful, return the driver
+        except Exception as e:
+            logger.error(
+                f"Error initializing Chrome WebDriver (attempt {attempt}): {e}"
+            )
+            if attempt == retry_count:
+                logger.error(
+                    "Failed to initialize Chrome WebDriver after multiple attempts."
+                )
+                raise SystemExit(1)
+            time.sleep(1)  # Wait before retrying
+
+
+def load_driver():
+    driver = initialize_driver()
     return driver
