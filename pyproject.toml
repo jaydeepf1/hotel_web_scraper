@@ -9,6 +9,8 @@ packages = [{include = "repl_nix_hotelwebscraper"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 selenium = "^4.21.0"
+psutil = "^6.0.0"
+py-cpuinfo = "^9.0.0"
 
 
 [build-system]

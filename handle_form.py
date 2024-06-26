@@ -114,8 +114,6 @@ def search_hotels(driver, destination, check_in_date, check_out_date):
     - check_out_date: Check-out date string.
     """
     try:
-        driver.maximize_window()
-        driver.get('https://www.ihg.com/hotels/us/en/reservation')
         enter_destination(driver, destination)
         enter_dates(driver, check_in_date, check_out_date)
         perform_search(driver)
