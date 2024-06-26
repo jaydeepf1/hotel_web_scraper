@@ -12,10 +12,12 @@ logger = set_log()
 
 
 # Retry mechanism for clicking elements
-def retry_click(element):
+def retry_click(driver, element):
     for _ in range(3):  # Retry up to 3 times
         try:
             element.click()
+            hotel_name_element = wait_for_element(
+                driver, (By.XPATH, '//h1[@data-testid="hotel-label"]'))
             return True
         except TimeoutException:
             continue
@@ -67,9 +69,10 @@ def extract_hotel_data(driver, destination, check_in_date, check_out_date):
                     driver,
                     (By.XPATH, "//button[contains(text(), 'Select Hotel')]"))
 
-                if not retry_click(hotel_elements[index]):
+                if not retry_click(driver, hotel_elements[index]):
                     return handle_error(
-                        logger, "Failed to click hotel element after retries.",
+                        logger,
+                        f"{destination} Failed to click hotel element after retries.",
                         index, total_num_hotels, hotel_data)
 
                 time.sleep(3)  # Add a small delay after clicking

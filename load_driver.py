@@ -53,6 +53,8 @@ def initialize_driver():
         try:
             service = Service(port=find_free_port())
             driver = webdriver.Chrome(service=service, options=options)
+            driver.maximize_window()
+            driver.get('https://www.ihg.com/hotels/us/en/reservation')
             return driver  # If successful, return the driver
         except Exception as e:
             logger.error(

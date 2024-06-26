@@ -73,11 +73,21 @@ def main():
 
     try:
         for destination in destinations:
+            dest_start_time = time.time(
+            )  # Start the timer for the current destination
+
             # Load fresh driver for each destination
             driver = load_driver()
 
             process_destination(driver, destination, check_in_date,
                                 check_out_date)
+
+            dest_end_time = time.time(
+            )  # End the timer for the current destination
+            dest_execution_time = dest_end_time - dest_start_time
+            logger.info(
+                f"Execution time for {destination}: {dest_execution_time} seconds"
+            )  # Log execution time for the destination
 
     except Exception as e:
         error_msg = f"Exception occurred: {str(e)}"
