@@ -99,7 +99,9 @@ def select_currency(driver, currency="USD"):
             if option.text.strip() == currency:
                 option.click()
                 break
+        logger.info(f'Currency selected: {currency}')
     except Exception:
+        logger.error('Currency not selected')
         pass
 
 
