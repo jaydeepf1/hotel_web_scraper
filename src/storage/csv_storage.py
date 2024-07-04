@@ -3,6 +3,7 @@ import csv
 
 
 class CSV_storage:
+
     def __init__(self, destination, hotel_data, file_name):
         self.destination = destination
         self.hotel_data = hotel_data
@@ -11,12 +12,8 @@ class CSV_storage:
     def save_to_csv(self):
         if self.hotel_data:
             keys = self.hotel_data[0].keys()
-            base_dir = (
-                pathlib.Path(__file__).parent.parent.parent
-                / "data"
-                / "processed"
-                / self.destination
-            )
+            base_dir = (pathlib.Path(__file__).parent.parent.parent / "data" /
+                        "raw" / self.destination)
             base_dir.mkdir(parents=True, exist_ok=True)
 
             file_path = base_dir / self.file_name

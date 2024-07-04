@@ -7,6 +7,3 @@ if __name__ == "__main__":
     from main import scrape
 
     scrape(destination="Auburn, Alabama, United States")
-    # from src.storage.csv_storage import CSV_storage
-
-    # CSV_storage("a", [{"a": 1}], "x").save_to_csv()
